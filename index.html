@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flappy Puerto Rico: Ultimate Edition 🇵🇷</title>
+    <title>Flappy PR: Caribbean Skies 🇵🇷</title>
     <style>
         :root {
-            --sky-blue: #4facfe;
-            --deep-blue: #00f2fe;
-            --gold: #FFD700;
+            --neon-gold: #ffea00;
+            --deep-ocean: #004e92;
+            --tropical-green: #2ecc71;
         }
         body {
             margin: 0;
             overflow: hidden;
-            background: #111;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #000;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,14 +23,14 @@
         }
         #game-container {
             position: relative;
-            box-shadow: 0 0 100px rgba(0,0,0,0.7);
-            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.9);
+            border-radius: 15px;
             overflow: hidden;
-            border: 6px solid #333;
+            border: 8px solid #222;
+            background: #4facfe;
         }
         canvas {
             display: block;
-            background: linear-gradient(to bottom, var(--sky-blue), var(--deep-blue));
             cursor: pointer;
         }
         #ui-layer {
@@ -40,22 +40,19 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 30px;
+            padding: 20px;
+            box-sizing: border-box;
             color: white;
-            text-shadow: 0 4px 0 rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             user-select: none;
         }
-        .stats {
+        .stats-bar {
             display: flex;
-            gap: 20px;
-            font-size: 28px;
-            font-weight: bold;
+            justify-content: space-between;
+            font-size: 24px;
+            font-weight: 800;
+            font-family: 'Courier New', Courier, monospace;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
         #overlay {
             position: absolute;
@@ -63,53 +60,61 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.75);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             text-align: center;
-            transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.4s ease;
         }
-        .hidden { display: none !important; }
+        .hidden { opacity: 0; pointer-events: none; }
         h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-            color: var(--gold);
-            text-shadow: 0 4px 0 #B8860B;
+            font-size: 50px;
+            margin: 0;
+            background: linear-gradient(to bottom, var(--neon-gold), #B8860B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 0 rgba(0,0,0,0.3));
+            font-weight: 900;
+            font-style: italic;
         }
         .btn-start {
-            padding: 15px 40px;
-            font-size: 24px;
-            background: var(--gold);
-            color: #333;
+            margin-top: 30px;
+            padding: 18px 50px;
+            font-size: 22px;
+            background: var(--neon-gold);
+            color: #000;
             border: none;
-            border-radius: 50px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 800;
+            text-transform: uppercase;
             box-shadow: 0 6px 0 #B8860B;
-            transition: transform 0.1s;
+            transition: 0.1s;
             pointer-events: all;
         }
         .btn-start:active { transform: translateY(4px); box-shadow: 0 2px 0 #B8860B; }
+        .subtitle { font-size: 18px; opacity: 0.9; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div id="game-container">
         <canvas id="gameCanvas" width="400" height="600"></canvas>
         <div id="ui-layer">
-            <div class="stats">
-                <span id="score">SC: 0</span>
+            <div class="stats-bar">
+                <span id="score">SCORE: 0</span>
                 <span id="level">LVL: 1</span>
             </div>
         </div>
         <div id="overlay">
-            <h1>FLAPPY PR 🇵🇷</h1>
-            <p>Esquiva el Soy y las Palmas</p>
-            <button class="btn-start" id="startBtn">¡A VOLAR!</button>
+            <h1>CARIBBEAN SKIES</h1>
+            <p class="subtitle">The Ultimate Cotorra Experience 🇵🇷</p>
+            <button class="btn-start" id="startBtn">Start flight</button>
         </div>
     </div>
-    <script src="js/game.js"></script>
+    <script src="js/game.js?v=1.1"></script>
 </body>
 </html>
