@@ -1,12 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8"/>
-  <title>Flappy Puerto Rico</title>
-  <link rel="stylesheet" href="css/style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Puerto Rico 🇵🇷</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #70c5ff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            border: 4px solid #222;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            background-color: #70c5ff;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="480" height="320"></canvas>
-  <script src="js/game.js"></script>
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    <script src="js/game.js"></script>
 </body>
 </html>
