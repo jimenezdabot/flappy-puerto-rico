@@ -3,43 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flappy Puerto Rico 3D Deluxe 🇵🇷</title>
+    <title>Flappy Puerto Rico: Ultimate Edition 🇵🇷</title>
     <style>
+        :root {
+            --sky-blue: #4facfe;
+            --deep-blue: #00f2fe;
+            --gold: #FFD700;
+        }
         body {
             margin: 0;
             overflow: hidden;
-            background: #000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #111;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            touch-action: manipulation;
+            touch-action: none;
+        }
+        #game-container {
+            position: relative;
+            box-shadow: 0 0 100px rgba(0,0,0,0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 6px solid #333;
         }
         canvas {
-            border: none;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            display: block;
+            background: linear-gradient(to bottom, var(--sky-blue), var(--deep-blue));
+            cursor: pointer;
         }
-        #ui {
+        #ui-layer {
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 24px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 30px;
+            color: white;
+            text-shadow: 0 4px 0 rgba(0,0,0,0.3);
+            user-select: none;
         }
+        .stats {
+            display: flex;
+            gap: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            transition: opacity 0.3s;
+        }
+        .hidden { display: none !important; }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: var(--gold);
+            text-shadow: 0 4px 0 #B8860B;
+        }
+        .btn-start {
+            padding: 15px 40px;
+            font-size: 24px;
+            background: var(--gold);
+            color: #333;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 6px 0 #B8860B;
+            transition: transform 0.1s;
+            pointer-events: all;
+        }
+        .btn-start:active { transform: translateY(4px); box-shadow: 0 2px 0 #B8860B; }
     </style>
 </head>
 <body>
-    <div id="ui">
-        <div id="score">Sore: 0</div>
-        <div id="level">Nivel: 1</div>
+    <div id="game-container">
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <div id="ui-layer">
+            <div class="stats">
+                <span id="score">SC: 0</span>
+                <span id="level">LVL: 1</span>
+            </div>
+        </div>
+        <div id="overlay">
+            <h1>FLAPPY PR 🇵🇷</h1>
+            <p>Esquiva el Soy y las Palmas</p>
+            <button class="btn-start" id="startBtn">¡A VOLAR!</button>
+        </div>
     </div>
-    <canvas id="gameCanvas" width="400" height="600"></canvas>
     <script src="js/game.js"></script>
 </body>
 </html>
