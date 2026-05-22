@@ -11,14 +11,15 @@
   });
 
   const CONFIG = Object.freeze({
-    gravity: 520, // px/s^2 (tuned for playability)
-    flapVelocity: -300, // px/s
-    spawnEveryS: 1.25,
-    gapPx: 170,
+    // Casual arcade tuning (more forgiving)
+    gravity: 460, // px/s^2
+    flapVelocity: -290, // px/s
+    spawnEveryS: 1.45,
+    gapPx: 200,
     pipeW: 65,
-    baseSpeed: 150, // px/s
-    speedPerLevel: 16, // px/s
-    levelEvery: 5,
+    baseSpeed: 135, // px/s
+    speedPerLevel: 12, // px/s
+    levelEvery: 7,
     pipeMarginTop: 50,
     pipeMarginBottom: 150,
     bird: { x: 80, w: 46, h: 32 }
@@ -29,6 +30,7 @@
     score: document.getElementById('score'),
     level: document.getElementById('level'),
     best: document.getElementById('best'),
+    lives: document.getElementById('lives'),
     overlay: document.getElementById('overlay'),
     overlayTitle: document.getElementById('overlayTitle'),
     overlaySubtitle: document.getElementById('overlaySubtitle'),
@@ -60,6 +62,7 @@
     pipes: [],
     score: 0,
     best: loadBest(),
+    lives: 3,
     level: 1,
     t: 0,
     spawnTimer: 0,
@@ -121,6 +124,7 @@
   function resetRun() {
     state.pipes = [];
     state.score = 0;
+    state.lives = 3;
     state.level = 1;
     state.t = 0;
     state.spawnTimer = 0;
@@ -168,10 +172,34 @@
     el.startBtn.textContent = opts.button || 'Start flight';
   }
 
-  function onGameOver() {
-    if (state.mode !== GAME_STATE.RUNNING) return;
-    state.mode = GAME_STATE.GAMEOVER;
+  function onCrash() {
+    // Casual mode: lives instead of instant death.
     sfx.crash();
+
+    state.lives -= 1;
+    if (state.lives <= 0) {
+      onGameOver();
+      return;
+    }
+
+    // Reset bird position and give a short grace period.
+    state.bird.y = canvas.height * 0.5;
+    state.bird.v = CONFIG.flapVelocity * 0.6;
+    state.invulnS = 1.0;
+
+    setOverlay('show', {
+      title: 'Ouch!',
+      subtitle: `Lives left: ${state.lives}   •   Score: ${state.score}`,
+      hint: 'Tap / Click / Space to continue',
+      button: 'Continue'
+    });
+
+    state.mode = GAME_STATE.PAUSED;
+  }
+
+  function onGameOver() {
+    if (state.mode !== GAME_STATE.RUNNING && state.mode !== GAME_STATE.PAUSED) return;
+    state.mode = GAME_STATE.GAMEOVER;
 
     if (state.score > state.best) {
       state.best = state.score;
@@ -232,7 +260,7 @@
 
       if (state.invulnS <= 0) {
         if (intersects(bird, topRect) || intersects(bird, botRect)) {
-          onGameOver();
+          onCrash();
           return;
         }
       }
@@ -242,7 +270,7 @@
 
     if (state.invulnS <= 0) {
       if (bird.y + bird.h > canvas.height || bird.y < 0) {
-        onGameOver();
+        onCrash();
       }
     }
   }
@@ -329,6 +357,7 @@
     el.score.innerText = `SCORE: ${state.score}`;
     el.level.innerText = `LVL: ${state.level}`;
     el.best.innerText = `BEST: ${state.best}`;
+    el.lives.innerText = `LIVES: ${state.lives}`;
   }
 
   // --- Input / Actions ---
@@ -371,7 +400,9 @@
       return;
     }
     if (state.mode === GAME_STATE.PAUSED) {
-      togglePause();
+      // In casual mode we use PAUSED for both pause + crash-interstitial.
+      state.mode = GAME_STATE.RUNNING;
+      setOverlay('hide');
       return;
     }
     flap();
