@@ -58,7 +58,7 @@ function drawBird() {
     // Ojo profesional
     ctx.fillStyle = 'white';
     ctx.beginPath(); ctx.arc(12, -5, 6, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'black'; l
+    ctx.fillStyle = 'black';
     ctx.beginPath(); ctx.arc(14, -5, 3, 0, Math.PI*2); ctx.fill();
     
     // Pico
